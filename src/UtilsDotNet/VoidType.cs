@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace UtilsDotNet
 {
-    public struct VoidType
-    {
-        
-    }
+	public class VoidType
+	{
+
+	}
+	
 }
