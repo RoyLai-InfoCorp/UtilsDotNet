@@ -1,16 +1,32 @@
-// SPDX-FileCopyrightText: 2020-2021 InfoCorp Technologies Pte. Ltd. <roy.lai@infocorp.io>
-// SPDX-License-Identifier: See LICENSE.txt
-
-using Org.BouncyCastle.Crypto.Digests;
+﻿using Org.BouncyCastle.Crypto.Digests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace UtilsDotNet
+namespace UtilsDotNet.Extensions
 {
 	public static class StringExtensions
 	{
+		public static string Keccak256(this string preimage)
+		{
+			return preimage.ToLower().StartsWith("0x") ?
+				"0x" + preimage.Substring(2).Hex2Bytes().Keccak256().Bytes2Hex().ToLower() :
+				"0x" + preimage.UTF82Bytes().Keccak256().Bytes2Hex().ToLower();
+		}
+
+		public static int GetHexVal(char hex)
+		{
+			int val = (int)hex;
+			//For uppercase A-F letters:
+			//return val - (val < 58 ? 48 : 55);
+			//For lowercase a-f letters:
+			//return val - (val < 58 ? 48 : 87);
+			//Or the two combined, but a bit slower:
+			return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+		}
+
 		public static byte[] SHA256(byte[] data, int offset = 0, int count = 0)
 		{
 			var sha256 = new Sha256Digest();
@@ -71,7 +87,7 @@ namespace UtilsDotNet
 			}
 			catch (Exception e)
 			{
-				System.Diagnostics.Debug.WriteLine(e);
+				System.Diagnostics.Debug.WriteLine(e.ToString());
 				return HexStringToBytes(data);
 			}
 		}
@@ -190,7 +206,5 @@ namespace UtilsDotNet
 			var bytes = Encoding.UTF8.GetBytes(utf8);
 			return bytes;
 		}
-
-
 	}
 }

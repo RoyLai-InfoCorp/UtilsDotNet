@@ -16,6 +16,7 @@ using Org.BouncyCastle.Security;
 using System;
 using System.IO;
 using System.Text;
+using UtilsDotNet.Extensions;
 
 namespace UtilsDotNet
 {

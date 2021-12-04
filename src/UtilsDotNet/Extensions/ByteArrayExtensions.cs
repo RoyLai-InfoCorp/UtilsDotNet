@@ -1,14 +1,62 @@
-// SPDX-FileCopyrightText: 2020-2021 InfoCorp Technologies Pte. Ltd. <roy.lai@infocorp.io>
-// SPDX-License-Identifier: See LICENSE.txt
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
+using Org.BouncyCastle.Crypto.Digests;
 using System;
+using System.IO;
+using System.Linq;
+using System.Numerics;
 using System.Text;
 
-namespace UtilsDotNet
+namespace UtilsDotNet.Extensions
 {
-
 	public static class ByteArrayExtensions
 	{
+		public static byte[] Keccak256(this byte[] bytes)
+		{
+			var digest = new KeccakDigest(256);
+			digest.BlockUpdate(bytes, 0, bytes.Length);
+			var calculatedHash = new byte[digest.GetByteLength()];
+			digest.DoFinal(calculatedHash, 0);
+			return calculatedHash.Take(32).ToArray();
+		}
+
+		public static T Bytes2Object<T>(this byte[] bytes)
+		{
+			var ms = new MemoryStream(bytes);
+			T result = default(T);
+			if (typeof(T) == typeof(string))
+			{
+				var s = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+				result = (T)Convert.ChangeType(s, typeof(T));
+			}
+			else if (typeof(T) == typeof(int))
+			{
+				result = (T)Convert.ChangeType(BitConverter.ToInt32(bytes, 0), typeof(T));
+			}
+			else
+			{
+				using (BsonReader br = new BsonReader(ms))
+				{
+					JsonSerializer js = new JsonSerializer();
+					result = js.Deserialize<T>(br);
+				}
+			}
+			return result;
+		}
+
+		public static BigInteger Bytes2BigInteger(this byte[] bytes, bool isUnsigned = true, bool isBigEndian = true)
+		{
+			return new BigInteger(bytes, isUnsigned, isBigEndian);
+		}
+
+		public static UInt16 Bytes2UInt16(this byte[] bytes, bool isBigEndian)
+		{
+			if (isBigEndian)
+				return BitConverter.ToUInt16(bytes);
+			return BitConverter.ToUInt16(bytes.Reverse().ToArray());
+		}
+
+
 		public static byte[] SHA256(this byte[] bytes)
 		{
 			return CryptoHelper.SHA256(bytes);
@@ -171,7 +219,6 @@ namespace UtilsDotNet
 		public static string Bytes2Base58(this byte[] bytes)
 		{
 			return SimpleBase.Base58.Bitcoin.Encode(bytes);
-			//return EncodeHelper.EncodeBase58(bytes, 0, bytes.Length);
 		}
 
 
@@ -182,6 +229,5 @@ namespace UtilsDotNet
 			Buffer.BlockCopy(second, 0, ret, first.Length, second.Length);
 			return ret;
 		}
-
 	}
 }
