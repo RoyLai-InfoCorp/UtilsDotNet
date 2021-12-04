@@ -2,6 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+   	<Version> 1.0.0.0 </Version>
+    <PackageId>UtilsDotNet</PackageId>
+    <Authors>Roy Lai</Authors>
+    <Company>InfoCorp Technologies Pte Ltd</Company>
+    <Title>UtilsDotNet</Title>
+    <PackageTags>InfoCorp</PackageTags>
+    <PackageDescription> See README.md for more details</PackageDescription>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/RoyLai-InfoCorp/UtilsDotNet</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <Copyright>Copyright (C) 2020 InfoCorp Technologies Pte. Ltd. (roy.lai@infocorp.io) - All Rights Reserved</Copyright>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -9,6 +22,11 @@
 		<PackageReference Include="Humanizer.Core" Version="2.13.14" />
 		<PackageReference Include="SimpleBase" Version="3.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
 	</ItemGroup>
 
 </Project>
