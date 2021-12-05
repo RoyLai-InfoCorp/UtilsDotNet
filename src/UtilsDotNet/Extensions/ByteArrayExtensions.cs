@@ -49,11 +49,11 @@ namespace UtilsDotNet.Extensions
 			return new BigInteger(bytes, isUnsigned, isBigEndian);
 		}
 
-		public static UInt16 Bytes2UInt16(this byte[] bytes, bool isBigEndian)
+		public static UInt16 Bytes2UInt16(this byte[] bytes, bool isBigEndian = false)
 		{
-			if (isBigEndian)
-				return BitConverter.ToUInt16(bytes);
-			return BitConverter.ToUInt16(bytes.Reverse().ToArray());
+			if (BitConverter.IsLittleEndian && isBigEndian || !BitConverter.IsLittleEndian && !isBigEndian)
+				return BitConverter.ToUInt16(bytes.Reverse().ToArray());
+			return BitConverter.ToUInt16(bytes.ToArray());
 		}
 
 
