@@ -204,6 +204,16 @@ namespace UtilsDotNet.Extensions
 		}
 
 		/// <summary>
+		/// Convert bytes to ASCII text encoding
+		/// </summary>
+		/// <returns></returns>
+		public static string Bytes2Ascii(this byte[] bytes)
+		{
+			return Encoding.ASCII.GetString(bytes, 0, bytes.Length);
+		}
+
+
+		/// <summary>
 		/// Convert bytes to Base64 binary encoding
 		/// </summary>
 		/// <returns></returns>

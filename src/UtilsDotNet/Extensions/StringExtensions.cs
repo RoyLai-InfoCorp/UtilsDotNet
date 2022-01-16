@@ -206,5 +206,30 @@ namespace UtilsDotNet.Extensions
 			var bytes = Encoding.UTF8.GetBytes(utf8);
 			return bytes;
 		}
+
+		/// <summary>
+		/// Convert ASCII text encoding to hexadecimal binary encoding
+		/// </summary>
+		/// <param name="base64"></param>
+		/// <returns></returns>
+		public static string Ascii2Hex(this string ascii)
+		{
+			var bytes = Encoding.ASCII.GetBytes(ascii);
+			if (bytes != null)
+				return BitConverter.ToString(bytes).ToLower().Replace("-", "");
+			return null;
+		}
+
+		/// <summary>
+		/// Convert ASCII text encoding to hexadecimal binary encoding
+		/// </summary>
+		/// <param name="base64"></param>
+		/// <returns></returns>
+		public static byte[] Ascii2Bytes(this string ascii)
+		{
+			var bytes = Encoding.ASCII.GetBytes(ascii);
+			return bytes;
+		}
+
 	}
 }
